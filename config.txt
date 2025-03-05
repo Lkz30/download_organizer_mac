@@ -1,0 +1,21 @@
+#  CONFIGURACIÓN DE REGLAS PARA ORGANIZADOR DE DESCARGAS
+#  FORMATO PARA ASIGNAR ARCHIVOS A CARPETAS:
+#  
+# extensión=carpeta_destino
+
+# Ejemplo: 
+# pdf=~/Documents/freelance/descargas_pdf_diaLunes
+
+# Escribe tus extensiones y rutas a partir de aqui: 
+
+pdf=/ruta/completa/atu/carpeta
+png=/ruta/completa/atu/carpeta
+
+
+# Si quieres cambiar rutas de carpetas, agrégalas de esta forma:
+# Ejemplo: 
+# antigua_ruta=nueva_ruta
+
+# Escribe tus nuevas carpetas a partir de aqui:
+/antigua/ruta/completa/atu/carpeta=/nueva/ruta/completa/atu/carpeta
+
