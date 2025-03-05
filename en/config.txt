@@ -1,21 +1,20 @@
-#  CONFIGURACIÓN DE REGLAS PARA ORGANIZADOR DE DESCARGAS
-#  FORMATO PARA ASIGNAR ARCHIVOS A CARPETAS:
-#  
-# extensión=carpeta_destino
+#  CONFIGURATION RULES FOR DOWNLOAD ORGANIZER
+#  FORMAT FOR ASSIGNING FILES TO FOLDERS:
+#
+# extension=destination_folder
 
-# Ejemplo: 
-# pdf=~/Documents/freelance/descargas_pdf_diaLunes
+# Example:
+# pdf=~/Documents/freelance/pdf_downloads_Monday
 
-# Escribe tus extensiones y rutas a partir de aqui: 
+# Write your extensions and paths starting from here:
 
-pdf=/ruta/completa/atu/carpeta
-png=/ruta/completa/atu/carpeta
+pdf=/full/path/to/your/folder
+png=/full/path/to/your/folder
 
+# If you want to change folder paths, add them in this format:
+# Example:
+# old_path=new_path
 
-# Si quieres cambiar rutas de carpetas, agrégalas de esta forma:
-# Ejemplo: 
-# antigua_ruta=nueva_ruta
-
-# Escribe tus nuevas carpetas a partir de aqui:
-/antigua/ruta/completa/atu/carpeta=/nueva/ruta/completa/atu/carpeta
+# Write your new folders starting from here:
+/old/full/path/to/your/folder=/new/full/path/to/your/folder
 

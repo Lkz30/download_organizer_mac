@@ -1,74 +1,71 @@
 #!/bin/bash
 
-
 CONFIG_FILE="config.txt"
 
-# Verificar si fswatch está instalado en macOS
+# Check if fswatch is installed on macOS
 if ! command -v fswatch &> /dev/null; then
-    echo "fswatch no está instalado. Instalándolo ahora..."
+    echo "fswatch is not installed. Installing it now..."
     
-    # Verificar si Homebrew está instalado
+    # Check if Homebrew is installed
     if ! command -v brew &> /dev/null; then
-        echo "Homebrew no está instalado. Instálalo manualmente desde https://brew.sh/"
+        echo "Homebrew is not installed. Please install it manually from https://brew.sh/"
         exit 1
     fi
     
-    # Instalar fswatch con Homebrew
+    # Install fswatch using Homebrew
     brew install fswatch
 else
-    echo "fswatch ya está instalado."
+    echo "fswatch is already installed."
 fi
 
-# Verificar si el archivo de configuración existe, si no, crearlo con formato correcto
+# Check if the configuration file exists; if not, create it with the correct format
 if [[ ! -f "$CONFIG_FILE" ]]; then
-    echo "El archivo de configuración no existe. Creándolo con formato de ejemplo..."
+    echo "The configuration file does not exist. Creating it with a sample format..."
     cat <<EOL > "$CONFIG_FILE"
-#  CONFIGURACIÓN DE REGLAS PARA ORGANIZADOR DE DESCARGAS
-#  FORMATO PARA ASIGNAR ARCHIVOS A CARPETAS:
-# extensión=carpeta_destino
+#  DOWNLOAD ORGANIZER CONFIGURATION RULES
+#  FORMAT FOR ASSIGNING FILES TO FOLDERS:
+# extension=destination_folder
 
-pdf=~/Documents/freelance/descargas_pdf_diaLunes
-jpg=~/Pictures/Carpeta_Imagenes
-mp4=~/Videos/Carpeta_Videos
+pdf=~/Documents/freelance/pdf_downloads_Monday
+jpg=~/Pictures/Image_Folder
+mp4=~/Videos/Video_Folder
 
-#  Si quieres cambiar rutas de carpetas, agrégalas aquí:
-# antigua_ruta=nueva_ruta
-~/Documents/freelance/descargas_pdf_diaLunes=~/Documents/proyectos/pdfs_ordenados
+#  If you want to change folder paths, add them here:
+# old_path=new_path
+~/Documents/freelance/pdf_downloads_Monday=~/Documents/projects/organized_pdfs
 EOL
-    echo "Archivo de configuración creado. Edita '$CONFIG_FILE' para personalizar las reglas."
+    echo "Configuration file created. Edit '$CONFIG_FILE' to customize the rules."
     exit 0
 fi
 
-# Función para leer la configuración y mover archivos
-mover_archivos() {
-    local archivo="$1"
-    local extension="${archivo##*.}"
+# Function to read the configuration and move files
+move_files() {
+    local file="$1"
+    local extension="${file##*.}"
 
-    # Leer la carpeta destino desde el archivo de configuración, ignorando líneas comentadas
-    carpeta_destino=$(grep "^$extension=" "$CONFIG_FILE" | cut -d '=' -f2- | tr -d '\r')
+    # Read the destination folder from the configuration file, ignoring commented lines
+    destination_folder=$(grep "^$extension=" "$CONFIG_FILE" | cut -d '=' -f2- | tr -d '\r')
 
-    if [[ -n "$carpeta_destino" ]]; then
-        # Expandir tilde (~) en rutas
-        carpeta_destino=$(eval echo "$carpeta_destino")
+    if [[ -n "$destination_folder" ]]; then
+        # Expand tilde (~) in paths
+        destination_folder=$(eval echo "$destination_folder")
 
-        # Reemplazar rutas antiguas si están en la configuración
-        while IFS="=" read -r antigua nueva; do
-            if [[ "$carpeta_destino" == "$antigua" ]]; then
-                carpeta_destino="$nueva"
+        # Replace old paths if they exist in the configuration
+        while IFS="=" read -r old_path new_path; do
+            if [[ "$destination_folder" == "$old_path" ]]; then
+                destination_folder="$new_path"
             fi
         done < <(grep -v "^#" "$CONFIG_FILE" | awk -F= 'NF==2 && $1 ~ /^\//')
 
-        mkdir -p "$carpeta_destino"
-        mv "$archivo" "$carpeta_destino"
-        echo "📂 Movido: $(basename "$archivo") → $carpeta_destino"
+        mkdir -p "$destination_folder"
+        mv "$file" "$destination_folder"
+        echo "📂 Moved: $(basename "$file") → $destination_folder"
     fi
 }
 
-# Monitorear la carpeta Downloads y mover archivos en tiempo real
-echo " Monitoreando ~/Downloads según las reglas de $CONFIG_FILE..."
-nohup fswatch -0 ~/Downloads | while read -d "" archivo; do 
-    mover_archivos "$archivo"
+# Monitor the Downloads folder and move files in real time
+echo " Monitoring ~/Downloads according to the rules in $CONFIG_FILE..."
+nohup fswatch -0 ~/Downloads | while read -d "" file; do 
+    move_files "$file"
 done &>/dev/null &
-
-
 
