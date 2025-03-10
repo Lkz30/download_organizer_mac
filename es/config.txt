@@ -9,6 +9,7 @@
 
 # Si lo que quieres es usar multiples tipos de archivo en la misma carpeta usa este formato:
 # flv mp3 mp4=~/Documents/freelance/descargas_pdf_diaLunes
+
 # separa los tipos de archivos por espacios
 # Escribe tus extensiones y rutas a partir de aqui: 
 

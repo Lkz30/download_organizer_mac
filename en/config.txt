@@ -6,7 +6,11 @@
 # Example:
 # pdf=~/Documents/freelance/pdf_downloads_Monday
 
+# If you want to use multiple file types in the same folder, use this format:
+# flv mp3 mp4=~/Documents/freelance/pdf_downloads_Monday
+# write extension files separated by spaces
 # Write your extensions and paths starting from here:
+
 
 pdf=/full/path/to/your/folder
 png=/full/path/to/your/folder

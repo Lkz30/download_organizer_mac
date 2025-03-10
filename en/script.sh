@@ -44,7 +44,7 @@ move_files() {
     local extension="${file##*.}"
 
     # Read the destination folder from the configuration file, ignoring commented lines
-    destination_folder=$(grep "^$extension=" "$CONFIG_FILE" | cut -d '=' -f2- | tr -d '\r')
+    destination_folder==$(grep -E "^[^#]*\b$extension\b" "$CONFIG_FILE" | cut -d '=' -f2- | tr -d '\r')
 
     if [[ -n "$destination_folder" ]]; then
         # Expand tilde (~) in paths
