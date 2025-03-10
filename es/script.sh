@@ -45,7 +45,7 @@ mover_archivos() {
     local extension="${archivo##*.}"
 
     # Leer la carpeta destino desde el archivo de configuración, ignorando líneas comentadas
-    carpeta_destino=$(grep "^$extension=" "$CONFIG_FILE" | cut -d '=' -f2- | tr -d '\r')
+    carpeta_destino=$(grep -E "^[^#]*\b$extension\b" "$CONFIG_FILE" | cut -d '=' -f2- | tr -d '\r')
 
     if [[ -n "$carpeta_destino" ]]; then
         # Expandir tilde (~) en rutas
